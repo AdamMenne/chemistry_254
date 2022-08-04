@@ -1,6 +1,9 @@
 ### A Pluto.jl notebook ###
 # v0.19.9
 
+#> [frontmatter]
+#> title = "Chemistry 254 - Experiment 8"
+
 using Markdown
 using InteractiveUtils
 
@@ -8,22 +11,136 @@ using InteractiveUtils
 using CairoMakie, PlutoUI,DataFrames, GLM
 
 # ╔═╡ e048b44e-0e7f-11ed-357d-2d92217543dc
-md"# Chemistry 254 - Practical 8"
+md"# Chemistry 254 - Experiment 8"
 
 # ╔═╡ 7abe4a6b-ffcd-4810-ae9e-4c8c8f07cb1b
 md" ## Packages and data"
 
 # ╔═╡ b2aa282b-9054-4e2d-9e83-4453cb1fa91c
-temps = [67, 62, 56, 51, 41, 36, 30, 24.5, 10, 5, 2.4]
+temp = [67, 62, 56, 51, 41, 36, 30, 24.5, 10, 5, 2.4] .+ 273.15;
 
 # ╔═╡ 42e9a707-33e4-46ab-8c12-18314b77830b
-volt = [1.56, 1.561, 1.562, 1.563, 1.564, 1.565, 1.566, 1.567, 1.568, 1.569, 1.567]
+volt = [1.56, 1.561, 1.562, 1.563, 1.564, 1.565, 1.566, 1.567, 1.568, 1.569, 1.57];
 
 # ╔═╡ 04509752-5eac-4440-bac0-b7503e7cec67
 md" ## Analysis and figures"
 
-# ╔═╡ a041cc9a-b428-447b-9047-53f8ba506b9f
+# ╔═╡ 76a9e516-91d8-4c6f-b491-c2facebda77e
+tv = [(temp[i], volt[i]) for i in 1:length(temp)]
 
+# ╔═╡ e74cf52b-bfe1-43ab-842a-c684727350f1
+data = DataFrame((X = temp, Y = volt));
+
+# ╔═╡ 360d6870-c9fb-444f-a9bc-76c95a0341b2
+md"### Linear Regression"
+
+# ╔═╡ a57e9d98-875e-4abd-9fd2-20c3e404d8d6
+ols = lm(@formula(Y ~ X), data)
+
+# ╔═╡ 378992ac-8773-4419-8b6d-07853d458af1
+#save("regression.pdf", f1)
+
+# ╔═╡ 0178604b-a8e1-495f-b211-39437cb92518
+a, b = coef(ols)
+
+# ╔═╡ 01c12592-4a84-44f6-9376-98693c651dcd
+begin
+	f1 = Figure()
+	ax1 = Axis(f1[1, 1],
+		xlabel = "Temperature (°K)", 
+		ylabel = "Voltage (V)"
+		)
+	x = temp
+	y = volt
+	b_r = round(b, sigdigits = 4)
+	s = scatter!(ax1, x, y, color = (:dodgerblue, 0.5))
+	l = lines!(ax1, x, predict(ols), color = (:red, 0.8))
+	legend = axislegend(ax1, [l], ["b = $b_r"], position = :rt)
+	f1
+end
+
+# ╔═╡ c446f265-626c-4956-ba5b-013052d6a142
+y_lr(x) = a + b*x;
+
+# ╔═╡ 24d1b065-b1b4-4c5c-8a3d-d4e431222016
+y_lr(297.65)
+
+# ╔═╡ 914cd3f5-719c-4d18-b53b-3cd3d98f68c1
+abs((y_lr(297.65) - 1.567) / 1.567) * 100
+
+# ╔═╡ f0b6b6a2-036c-4fa6-b717-b26bdd3be21e
+md"### Thermodynamics"
+
+# ╔═╡ 17df4678-f5c8-4542-a571-657eab46e2fd
+Δ⁰s = [0 42.6; -31.1 121.3; 0 41.6; -350.5 43.7]
+
+# ╔═╡ ce2a4aba-7315-46d3-a7bc-ffa3257dee79
+F = 96487
+
+# ╔═╡ 2ff5f9f7-a302-4707-bc08-098212850e75
+n = 2
+
+# ╔═╡ e59513e6-5c9b-4515-8fa3-d777b1489d73
+ΔG(E) = -n * F * E;
+
+# ╔═╡ bf4b88e2-e01e-4bc6-8313-43f6219fa052
+ΔS = n * F * b
+
+# ╔═╡ 69444dc7-a75c-4479-8db0-182abafa7739
+#ΔH(E, T) = (ΔG + T * ΔS)/1000;
+ΔH(E, T) = (-n * F * E + T * (n * F * -b))/1000;
+
+# ╔═╡ f615dc80-aa05-4cf2-8e96-f97664b68e7d
+ΔH(volt[8], temp[8])
+
+# ╔═╡ 89f3cb9d-50c7-4bab-8831-cde0f23e4729
+ΔG(1.602)/1000
+
+# ╔═╡ 170036cd-f154-4ba1-a3ad-2910d1fd683c
+ΔS
+
+# ╔═╡ fcd5d476-c2e9-4bfb-a2a3-78d29b007f13
+ΔH(1.602, 25)
+
+# ╔═╡ 7f3d40f0-69ec-400d-937e-0c57e8e52c0e
+ΔH⁰ = Δ⁰s[4 ,1] + Δ⁰s[1 ,1] - Δ⁰s[2 ,1] - Δ⁰s[3 ,1]
+
+# ╔═╡ c45b93e9-b8a0-4b5d-942b-77738ceb8457
+ΔS⁰ = Δ⁰s[4 ,2] + Δ⁰s[1 ,2] - Δ⁰s[2 ,2] - Δ⁰s[3 ,2]
+
+# ╔═╡ 24cd8409-8463-496f-a0cb-096ee34bbc6a
+begin
+	f2 = Figure()
+	ax2 = Axis(f2[1, 1], 
+		title = "Titration of Oxalic acid with Sodium hydroxide",
+		xlabel = "Temperature (°K)", 
+		ylabel = "ΔH (kJ mol⁻¹)"
+		)
+	x2 = temp
+	y2 = ΔH(volt, temp)
+	s2 = scatter!(ax2, x2, y2, color = (:dodgerblue, 0.5))
+	f2
+end
+
+# ╔═╡ a440a271-bce7-427a-8960-5ed6b3681896
+begin
+	f3 = Figure()
+	ax3 = Axis(f3[1, 1], 
+		title = "Titration of Oxalic acid with Sodium hydroxide",
+		xlabel = "Temperature (°K)", 
+		ylabel = "ΔG(kJ mol⁻¹)"
+		)
+	x3 = temp
+	y3 = ΔG(temp)
+	s3 = scatter!(ax3, x3, y3, color = (:dodgerblue, 0.5))
+	f2
+end
+
+# ╔═╡ a7d145d7-f0ea-4105-a844-e99208d2e4f0
+md"##### Hidden Definitions"
+
+# ╔═╡ a2b8964e-cc6a-42ed-bf0b-60c71af1cb46
+TableOfContents()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -67,9 +184,9 @@ version = "0.4.2"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "af92965fb30777147966f58acb05da51c5616b5f"
+git-tree-sha1 = "195c5505521008abea5aee4f96930717958eac6f"
 uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "3.3.3"
+version = "3.4.0"
 
 [[deps.Animations]]
 deps = ["Colors"]
@@ -298,9 +415,9 @@ version = "3.3.10+0"
 
 [[deps.FileIO]]
 deps = ["Pkg", "Requires", "UUIDs"]
-git-tree-sha1 = "9267e5f50b0e12fdfd5a2455534345c4cf2c7f7a"
+git-tree-sha1 = "94f5101b96d2d968ace56f7f2db19d0a5f592e28"
 uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-version = "1.14.0"
+version = "1.15.0"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -1271,12 +1388,38 @@ version = "3.5.0+0"
 """
 
 # ╔═╡ Cell order:
-# ╟─e048b44e-0e7f-11ed-357d-2d92217543dc
+# ╠═e048b44e-0e7f-11ed-357d-2d92217543dc
 # ╟─7abe4a6b-ffcd-4810-ae9e-4c8c8f07cb1b
 # ╠═8d7d0a61-f26f-4747-87b7-cff3d62998ca
 # ╠═b2aa282b-9054-4e2d-9e83-4453cb1fa91c
 # ╠═42e9a707-33e4-46ab-8c12-18314b77830b
-# ╠═04509752-5eac-4440-bac0-b7503e7cec67
-# ╠═a041cc9a-b428-447b-9047-53f8ba506b9f
+# ╟─04509752-5eac-4440-bac0-b7503e7cec67
+# ╠═76a9e516-91d8-4c6f-b491-c2facebda77e
+# ╠═e74cf52b-bfe1-43ab-842a-c684727350f1
+# ╟─360d6870-c9fb-444f-a9bc-76c95a0341b2
+# ╠═a57e9d98-875e-4abd-9fd2-20c3e404d8d6
+# ╠═01c12592-4a84-44f6-9376-98693c651dcd
+# ╠═378992ac-8773-4419-8b6d-07853d458af1
+# ╠═0178604b-a8e1-495f-b211-39437cb92518
+# ╠═c446f265-626c-4956-ba5b-013052d6a142
+# ╠═24d1b065-b1b4-4c5c-8a3d-d4e431222016
+# ╠═914cd3f5-719c-4d18-b53b-3cd3d98f68c1
+# ╟─f0b6b6a2-036c-4fa6-b717-b26bdd3be21e
+# ╠═17df4678-f5c8-4542-a571-657eab46e2fd
+# ╠═ce2a4aba-7315-46d3-a7bc-ffa3257dee79
+# ╠═2ff5f9f7-a302-4707-bc08-098212850e75
+# ╠═e59513e6-5c9b-4515-8fa3-d777b1489d73
+# ╠═bf4b88e2-e01e-4bc6-8313-43f6219fa052
+# ╠═69444dc7-a75c-4479-8db0-182abafa7739
+# ╠═f615dc80-aa05-4cf2-8e96-f97664b68e7d
+# ╠═89f3cb9d-50c7-4bab-8831-cde0f23e4729
+# ╠═170036cd-f154-4ba1-a3ad-2910d1fd683c
+# ╠═fcd5d476-c2e9-4bfb-a2a3-78d29b007f13
+# ╠═7f3d40f0-69ec-400d-937e-0c57e8e52c0e
+# ╠═c45b93e9-b8a0-4b5d-942b-77738ceb8457
+# ╠═24cd8409-8463-496f-a0cb-096ee34bbc6a
+# ╠═a440a271-bce7-427a-8960-5ed6b3681896
+# ╟─a7d145d7-f0ea-4105-a844-e99208d2e4f0
+# ╟─a2b8964e-cc6a-42ed-bf0b-60c71af1cb46
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

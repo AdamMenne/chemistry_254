@@ -1,4 +1,4 @@
-# chemistry_254
+# Chemistry 254
 Contains source files for data analysis, figures, and LaTeX. As well as static exports of the notebooks and somewhat recently compiled reports.
 
 ##  Pluto Notebooks

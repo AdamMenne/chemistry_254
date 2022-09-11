@@ -5,9 +5,9 @@ This repository contains source files for data analysis, figures, and LaTeX. As 
 These may be run in a live environment by clicking "Edit or run this notebook" in the top right-hand corner, and then selecting the first option to run the notebook through binder. This may take up to 10 minutes, so it is not preferable.
 - [Practical 1](https://adammenne.github.io/chemistry_254/practical_1/plots.html)
 - [Practical 2](https://adammenne.github.io/chemistry_254/practical_2/plots.html)
-- [Practical 3](https://adammenne.github.io/chemistry_254/practical_3/plots.html)
-- [Practical 4](https://adammenne.github.io/chemistry_254/practical_4/plots.html)
-- [Practical 5](https://adammenne.github.io/chemistry_254/practical_5/plots.html)
+- [Practical 3](https://adammenne.github.io/chemistry_254/practical_3/notebook.html)
+- [Practical 4](https://adammenne.github.io/chemistry_254/practical_4/notebook.html)
+- [Practical 5](https://adammenne.github.io/chemistry_254/practical_5/notebook.html)
 
 # Reports
 Latest compiled PDFs

@@ -32,7 +32,7 @@
 
 \usepackage[
 pdfauthor={Adam Menne},
-pdftitle={Chemistry 254 - Practical 4},
+pdftitle={Chemistry 254 - Practical 5},
 pdfsubject={},
 pdfkeywords={}]{hyperref}
 
@@ -51,7 +51,7 @@ isbn=false
 \setlength{\parindent}{0em}
 \linespread{1.3}
 
-\title{Chemistry 254\\ Experiment 4\\ Solubility of a solid}
+\title{Chemistry 254\\ Experiment 5\\ Adsorption}
 \date{Last edited on \today}
 \author{Adam Menne\\ Stellenbosch University}
 
@@ -61,7 +61,7 @@ isbn=false
 
 \begin{abstract}
 \noindent
-In this practical the temperature dependence on the solubility of benzoic acid is investigated. This is related to the enthalpy of solution by use of the Van 't Hoff equation
+In this practical the adsorption of acetic acid on activated carbon was measured at various concentrations. These empirical values were then used to determine the suitability of different adsorption isotherms
 \end{abstract}
 
 \tableofcontents
@@ -71,15 +71,71 @@ In this practical the temperature dependence on the solubility of benzoic acid i
 
 \section{Results}
 
-At 20 \textcelsius{} the concentration of benzoic acid was 0.02173 \(M\), while at 30 \textcelsius{} it was 0.02929 \(M\)
+The initial and equilibrium concentrations for acetic acid are shown in \cref*{tab:conc}. The mass of acetic acid adsorbed onto the charcoal in \cref*{tab:mass}.
 
-The temperature independent \(\Delta H^0\) was calculated to be 22.064 \(kJ\)
+\Cref*{fig:f1} and \cref*{fig:f2} show the linear regressions giving parameters to the Freundlich and Langmuir isotherms.
 
-A static export of the notebook containing all analysis and figures is availible at \url{https://adammenne.github.io/chemistry_254/practical_4/notebook.html}.\\ With full source code available at \url{https://github.com/AdamMenne/chemistry_254/tree/master/practical_4}
+\begin{table}[H]
+    \centering
+    \caption{Acetic acid concentrations}
+    \vspace*{2mm}
+    \label{tab:conc}
+    \begin{tabular}{cll}
+    \toprule
+    Sample & Initial (M) & Equilibrium (M) \\ \midrule
+    1 & 0.4052 & 6.93079e-5 \\
+    2 & 0.3578 & 6.14219e-5 \\
+    3 & 0.1483 & 2.65236e-5 \\
+    4 & 0.1065 & 4.61498e-5 \\
+    5 & 0.07732 & 3.40209e-5 \\
+    6 & 0.05023 & 4.36507e-5 \\
+    7 & 0.02005 & 1.85265e-5 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Mass of acetic acid adsorbed on charcoal}
+    \vspace*{2mm}
+    \label{tab:mass}
+    \begin{tabular}{cl}
+    \toprule
+    Sample & Mass adsorbed (m) \\ \midrule
+    1 & 0.0007543 \\
+    2 & 0.0003504 \\
+    3 & 0.00027 \\
+    4 & 0.0001598 \\
+    5 & 0.0001142 \\
+    6 & 3.871e-5 \\
+    7 & 2.265e-5
+    \end{tabular}
+    \end{table}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/f1.pdf}
+    \caption{Freundlich isotherm}
+    \label{fig:f1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/f2.pdf}
+    \caption{Langmuir isotherm}
+    \label{fig:f2}
+\end{figure}
+
+
+
+A static export of the notebook containing all analysis and figures is available at \url{https://adammenne.github.io/chemistry_254/practical_5/notebook.html}.\\ With full source code available at \url{https://github.com/AdamMenne/chemistry_254/tree/master/practical_5}
 
 \section{Discussion}
 
-The titrations carried out were consistent with both sets having standard deviations below 0.00014.
+The Freundlich isotherm had a significantly better correlation coefficient with a value 0.942 of compared to 0.0684 the achieved by the Langmuir isotherm. This shows the inability of the Langmuir isotherm to account for materials in which multiple layers of adsorption can occur. 
+
+Accuracy could be increased with a larger and wider sample size, as there were notable discrepancies for samples that were titrated multiple times.
 
 \newpage
 
@@ -88,34 +144,35 @@ The titrations carried out were consistent with both sets having standard deviat
 \section{Additional tasks}
 
 \begin{enumerate}
-    \item 0.02529
-    \item This rearrangement of the Van 't Hoff equation is possible due to the fact that \(\frac{d\frac{1}{T}}{dT} = -\frac{1}{T^2}\)
-    \item  The Van 't Hoff plot for a reaction that has a temperature dependant standard enthalpy will not be linear. With an adequate sample size over an appropriate range of temperatures, a polynomial fit will allow the gradient at any temperature to be found, and thus the standard enthalpy of solution to be calculated.
+    \item The Freundlich isotherm
+    \item That it is a physical adsorption and multiple layers are adsorbed 
+    \item \(\frac{1}{x_m} = -4.778\) and \(\frac{1}{Kx_m} = 185.08\)
+    \item It allows us to account for error due to the titrant reacting with the solvent
+    \item Exposure to suitably high temperatures such that all adsorbed materials will undergo volatilisation.
 \end{enumerate}
 
 \newpage
 
-\section{Flow Diagram}
+% \section{Flow Diagram}
 
-\begin{enumerate}
-    \item Heat a  25 \(cm^3\) pipette with a hair dryer, attach cotton filter, and fill past the mark
-    \item Remover filter, wipe off crystals, and evacuate the pipette to the mark
-    \item Empty into Erlenmeyer flask, washing with ethanol, add 2 to 3 drops phenolphthalein 
-    \item Titrate with 0.1 \(M\ NaOH\)
-    \item Clean pipette with ethanol followed by acetone, and dry
-    \item Repeat 3 times for both temperatures
-\end{enumerate}
+% \begin{enumerate}
+%     \item Heat a  25 \(cm^3\) pipette with a hair dryer, attach cotton filter, and fill past the mark
+%     \item Remover filter, wipe off crystals, and evacuate the pipette to the mark
+%     \item Empty into Erlenmeyer flask, washing with ethanol, add 2 to 3 drops phenolphthalein 
+%     \item Titrate with 0.1 \(M\ NaOH\)
+%     \item Clean pipette with ethanol followed by acetone, and dry
+%     \item Repeat 3 times for both temperatures
+% \end{enumerate}
 
 \newpage
 
 \section{MSDS}
 
-\subsection*{Benzoic acid}
+\subsection*{Acetic acid}
 
 \begin{itemize}
-    \item Corrosive, health hazard
-    \item[-] causes serious eye damage
-    \item[-] may cause respiratory irritation
+    \item Flammable, corrosive
+    \item[-] causes skin burns and eye damage
     \item[-] if in contact with skin or eyes wash for several minutes  
 \end{itemize}
 
